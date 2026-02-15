@@ -83,7 +83,13 @@ launchSettings.json
 *.pcap
 *.pcapng
 
-# =========================
-# Monitoring Worker
-# =========================
-/Monitoring.Worker/bin/Debug/*
+# Ignore .NET build output
+**/bin/
+**/obj/
+
+# Optional: ignore user-specific settings
+*.user
+*.vs/
+
+# Optional: logs
+*.log
