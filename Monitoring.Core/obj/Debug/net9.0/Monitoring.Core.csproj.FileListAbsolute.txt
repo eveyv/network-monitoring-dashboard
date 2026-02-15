@@ -1,0 +1,11 @@
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/bin/Debug/net9.0/Monitoring.Core.deps.json
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/bin/Debug/net9.0/Monitoring.Core.dll
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/bin/Debug/net9.0/Monitoring.Core.pdb
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.AssemblyInfoInputs.cache
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.AssemblyInfo.cs
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.csproj.CoreCompileInputs.cache
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.dll
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/refint/Monitoring.Core.dll
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/Monitoring.Core.pdb
+/Users/everettyeaw/Documents/Projects/dotnet_projecs/NetworkMonitoringDashboard/Monitoring.Core/obj/Debug/net9.0/ref/Monitoring.Core.dll
