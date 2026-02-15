@@ -83,3 +83,7 @@ launchSettings.json
 *.pcap
 *.pcapng
 
+# =========================
+# Monitoring Worker
+# =========================
+/Monitoring.Worker/bin/Debug/*
