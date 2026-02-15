@@ -1,0 +1,85 @@
+# =========================
+# .NET / C# specific
+# =========================
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio for Mac
+.vscode/
+*.vs/
+*.pidb
+*.userprefs
+
+# Rider / JetBrains
+.idea/
+
+# =========================
+# macOS specific
+# =========================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon?
+._*
+
+# Thumbnails
+._.DS_Store
+Thumbs.db
+
+# =========================
+# NuGet
+# =========================
+*.nupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/
+*.snupkg
+
+# =========================
+# Logs and temporary files
+# =========================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# =========================
+# Rider / IDE / build-specific
+# =========================
+*.resharper
+*.DotSettings.user
+_ReSharper*/
+*.sln.iml
+
+# =========================
+# ASP.NET / Web projects
+# =========================
+wwwroot/lib/
+node_modules/
+npm-debug.log*
+
+# =========================
+# Other
+# =========================
+*.db
+*.sqlite
+*.pdb
+*.coverage
+*.coveragexml
+
+# Ignore local configuration files (optional, if you keep secrets here)
+appsettings.Local.json
+launchSettings.json
+
+# =========================
+# Packet capture temp files
+# =========================
+*.pcap
+*.pcapng
+
