@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using SharpPcap;
 using PacketDotNet;
+using System.Text;
 
 namespace Monitoring.Worker.Services;
 
@@ -8,45 +10,77 @@ public class PacketCaptureService
 {
     private ICaptureDevice? _device;
 
+    private readonly Dictionary<string, string> _devices = new();
+
     public void StartCapture(string? filter = null)
     {
         var devices = CaptureDeviceList.Instance;
 
-        if (devices.Count < 1)
+        if (devices.Count == 0)
+            throw new Exception("No capture devices found.");
+
+        var device = devices.FirstOrDefault(d => d.Name.Contains("en0"));
+
+        if (device == null)
         {
-            Console.WriteLine("No capture devices found! Make sure you are running as sudo.");
-            return;
+            Console.WriteLine("Available devices:");
+            foreach (var d in devices)
+                Console.WriteLine($"- {d.Name}");
+
+            throw new Exception("Could not find active interface (en0).");
         }
 
-        Console.WriteLine("Available devices:");
-        for (int i = 0; i < devices.Count; i++)
-        {
-            Console.WriteLine($"{i}: {devices[i].Name} - {devices[i].Description}");
-        }
+        Console.WriteLine($"Started packet capture on {device.Name}");
 
-        _device = devices[0];
-        _device.OnPacketArrival += Device_OnPacketArrival;
+        device.Open(DeviceModes.Promiscuous);
 
-// this order is important: open, filter, capture.
-        _device.Open();
+        if (!string.IsNullOrWhiteSpace(filter))
+            device.Filter = filter;
 
-        if (!string.IsNullOrEmpty(filter))
-            _device.Filter = filter;
-
-        _device.StartCapture();
-
-        Console.WriteLine($"Started packet capture on {_device.Description}");
+        device.OnPacketArrival += OnPacketArrival;
+        device.StartCapture();
     }
 
-    private void Device_OnPacketArrival(object sender, PacketCapture e)
+    private void OnPacketArrival(object sender, PacketCapture e)
     {
-        var raw = e.GetPacket();
-        var packet = Packet.ParsePacket(raw.LinkLayerType, raw.Data);
+        var packet = Packet.ParsePacket(e.GetPacket().LinkLayerType, e.GetPacket().Data);
+
+        var udp = packet.Extract<UdpPacket>();
+        if (udp != null && udp.DestinationPort == 5353)
+        {
+            var payload = udp.PayloadData;
+            var text = Encoding.ASCII.GetString(payload);
+
+            if (text.Contains(".local"))
+            {
+                Console.WriteLine("mDNS name broadcast detected:");
+                Console.WriteLine(text);
+                Console.WriteLine("------------------------");
+            }
+        }
+
+        var ethernet = packet.Extract<EthernetPacket>();
+        if (ethernet == null)
+            return;
 
         var ipPacket = packet.Extract<IPPacket>();
-        if (ipPacket != null)
+        if (ipPacket == null)
+            return;
+
+        var mac = ethernet.SourceHardwareAddress.ToString();
+        var ip = ipPacket.SourceAddress.ToString();
+
+        if (!_devices.ContainsKey(mac))
         {
-            Console.WriteLine($"Packet: {ipPacket.SourceAddress} -> {ipPacket.DestinationAddress}, Protocol: {ipPacket.Protocol}");
+            _devices[mac] = ip;
+
+            var name = ResolveHostName(ip);
+
+            Console.WriteLine("New device detected:");
+            Console.WriteLine($"IP: {ip}");
+            Console.WriteLine($"MAC: {mac}");
+            Console.WriteLine($"Name: {name}");
+            Console.WriteLine("------------------------");
         }
     }
 
@@ -57,6 +91,18 @@ public class PacketCaptureService
             _device.StopCapture();
             _device.Close();
             _device = null;
+        }
+    }
+    private string ResolveHostName(string ip)
+    {
+        try
+        {
+            var host = Dns.GetHostEntry(ip);
+            return host.HostName;
+        }
+        catch
+        {
+            return "Unknown";
         }
     }
 }

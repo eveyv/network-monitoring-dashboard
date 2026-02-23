@@ -17,8 +17,8 @@ public class Worker : BackgroundService
     private readonly List<string> _hosts = new()
     {
         "192.168.1.1", // router
-        "google.com",  // external host
-        "everettyeaw.com" // personal website
+        // "google.com",  // external host
+        // "everettyeaw.com" // personal website
     };
 
     public Worker()
@@ -34,13 +34,13 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            Console.WriteLine($"\nRunning checks at {DateTime.Now}");
+            // Console.WriteLine($"\nRunning checks at {DateTime.Now}");
 
             foreach (var host in _hosts)
             {
-                await RunPingCheck(host);
-                await RunTcpCheck(host, 80);
-                await RunHttpCheck(host);
+                // await RunPingCheck(host);
+                // await RunTcpCheck(host, 80);
+                // await RunHttpCheck(host);
             }
 
             await Task.Delay(5000, stoppingToken); // 5 second loop
