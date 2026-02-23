@@ -27,26 +27,29 @@ public class Worker : BackgroundService
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+{
+    _packetCaptureService.StartCapture();
+
+    Console.WriteLine("Packet capture started...");
+
+    while (!stoppingToken.IsCancellationRequested)
     {
-        _packetCaptureService.StartCapture();
+        // Print the device summary every loop
+        _packetCaptureService.PrintDeviceSummary();
 
-        Console.WriteLine("Packet capture started...");
-
-        while (!stoppingToken.IsCancellationRequested)
+        // Optional network checks (currently commented)
+        foreach (var host in _hosts)
         {
-            // Console.WriteLine($"\nRunning checks at {DateTime.Now}");
-
-            foreach (var host in _hosts)
-            {
-                // await RunPingCheck(host);
-                // await RunTcpCheck(host, 80);
-                // await RunHttpCheck(host);
-            }
-
-            await Task.Delay(5000, stoppingToken); // 5 second loop
+            // await RunPingCheck(host);
+            // await RunTcpCheck(host, 80);
+            // await RunHttpCheck(host);
         }
-        _packetCaptureService.StopCapture();
+
+        await Task.Delay(10000, stoppingToken); // 10 second loop
     }
+
+    _packetCaptureService.StopCapture();
+}
 
     private async Task RunPingCheck(string host)
     {
